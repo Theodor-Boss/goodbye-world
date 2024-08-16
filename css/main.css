@@ -49,6 +49,17 @@ a {
     cursor: crosshair;
   }
 
+.site-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+    padding: 20px; /* Adds padding to position it nicely */
+    text-align: left; /* Align text to the left */
+    background-color: transparent; /* Make sure background is transparent */
+    margin-left: 10px; /* Adjust the left margin */
+}
+
 .header-main {
     width: 100%;
     height: 120px;
@@ -58,7 +69,7 @@ a {
     flex-wrap: wrap;
     justify-content: space-between; /*space-evenly, flex-start, center*/
     align-content: normal; /*flex-end, stretch*/
-    align-items: flex-end;
+    align-items: flex-start;
     /* gap: 50px 40px; */
 }
 
