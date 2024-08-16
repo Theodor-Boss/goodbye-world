@@ -7,9 +7,16 @@
     }
 
 
-    .main-content, .faglighed, .IT, .uddannelse, .personligt, .referencer {
+    .main-content{
+        flex-direction: column;
+        margin: 20px 10px;
+        padding: 20px;
+    }
+
+    .faglighed, .IT, .uddannelse, .personligt, .referencer {
         /* flex-direction: column; */
         margin: 20px 10px;
+        padding: 40px;
     }
 
     .left-column, .right-column {
