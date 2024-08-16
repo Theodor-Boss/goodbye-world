@@ -1,16 +1,25 @@
 @media (max-width: 768px) {
-    .main-content {
-        flex-direction: column;
-        margin: 20px;
+    body {
+        /* margin: 0; */
+        padding: 0;
+        /* padding: 0 10px; */
+        overflow-x: hidden;
+    }
+
+
+    .main-content, .faglighed, .IT, .uddannelse, .personligt, .referencer {
+        /* flex-direction: column; */
+        margin: 20px 10px;
     }
 
     .left-column, .right-column {
         max-width: 100%;
+        padding: 10px;
     }
 
-    .image-container {
+    /* .image-container {
         margin: 0 auto 20px;
-    }
+    } */
 }
 
 h1 {
