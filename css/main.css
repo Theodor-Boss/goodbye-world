@@ -56,7 +56,7 @@ a {
 }
 
 .portraet {
-    max-width: 800px;
+    max-width: 400px;
     width: calc(100% - 40px);
     margin: auto;  
 }
