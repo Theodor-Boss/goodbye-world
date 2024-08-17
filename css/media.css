@@ -1,0 +1,79 @@
+@media (max-width: 768px) {
+    body {
+        /* margin: 0; */
+        /* padding: 20px; */
+        /* padding: 0 10px; */
+        overflow-x: hidden;
+    }
+
+
+    .main-content{
+        flex-direction: column;
+        /* margin: 20px 10px; */
+        margin-left: 20px;
+        /* padding: 20px; */
+    }
+
+    .frame {
+        flex-direction: column;
+        margin: 20px 10px;
+        /* padding: 10px; */
+        background-color: red;
+    }
+
+    .IT, .uddannelse, .personligt, .referencer {
+        /* flex-direction: column; */
+        max-width: 100%;
+        /* margin: 20px 10px; */
+        /* padding: 40px; */
+
+    }
+
+    .left-column, .right-column {
+        /* max-width: 100%; */
+        /* padding: 10px; */
+        margin-left: 20px;
+    }
+
+    /* .image-container {
+        margin: 0 auto 20px;
+    } */
+}
+
+
+.header-main div {
+    height: 30px;
+}
+
+.header-main .div-1 {
+    /* width: 400px; */
+    background-color:blue;
+    order: 1;
+    /* flex-shrink: 1; */
+    flex: 1 0 100px;
+    align-self: flex-start;
+    /* flex-basis: 500px; */
+    /* flex-grow: 1; */
+}
+
+.header-main .div-2 {
+    /* width: 200px; */
+    background-color:rgb(8, 182, 60);
+    order: 2;
+    flex: 1 0 100px;
+    /* flex-basis: 100px; */
+    /* flex-shrink: 1; */
+    /* flex-grow: 1; */
+    /* flex-basis: auto; */
+    /* padding: 10px; */
+    /* flex-grow: 2; */
+}
+
+.header-main .div-3 {
+    /* width: 100px; */
+    order: 3;
+    background-color:rgb(231, 143, 28);
+    flex: 0 0 100px;
+    /* flex-basis: 100px; */
+    /* flex-grow: 2; */
+}
