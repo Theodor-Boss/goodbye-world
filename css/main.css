@@ -20,7 +20,7 @@ p {
 }
 
 a {
-    color: hotpink;
+    color: rgb(16, 0, 158);
     text-decoration: underline;
     cursor: pointer;
   }
