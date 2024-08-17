@@ -79,14 +79,15 @@ a {
     max-width: 300px;
     margin-right: 20px;
     /* max-width: 300px; */
-    background-color: rgb(26, 209, 200);
+    background-color: #dbe0c7;
+    
 }
 
 .overview .summary {
     flex: 1;
     padding: 20px;
     /* max-width: 800px; */
-    background-color: #fdcf73;
+    background-color: #c2c799;
 }
 
 .referencer {
@@ -95,7 +96,7 @@ a {
     margin: auto;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: rgb(194, 194, 60);
+    background-color: #b4c747bd;
 }
 
 .faglighed {
@@ -104,7 +105,7 @@ a {
     padding: 20px;
     margin: auto;
     margin-bottom: 20px;
-    background-color: rgb(26, 209, 200);
+    background-color: #bece6781;
 }
 
 .IT {
@@ -113,7 +114,7 @@ a {
     margin: auto;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #fdcf73;
+    background-color: #90bd47a2;
 }
 
 .uddannelse {
@@ -122,7 +123,7 @@ a {
     margin: auto;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: rgb(194, 194, 60);
+    background-color: #a9b98ea2;
 }
 
 .personligt {
@@ -131,7 +132,7 @@ a {
     margin: auto;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: rgb(26, 209, 200);
+    background-color: rgb(183, 216, 214);
 }
 
 .footer { 
