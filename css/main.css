@@ -233,8 +233,8 @@ a {
     }
 
     .portraet {
+        /* height: none; */
         width: 61.80339%;
-        height: auto;
         /* margin-left: 20px; */
         margin: auto;
         margin-bottom: 20px;
@@ -249,6 +249,7 @@ a {
         border-radius: none;
     }
 }
+
 
 /* .image {
     width: 300px;
