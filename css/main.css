@@ -178,7 +178,7 @@ a {
 
 .uddannelse {
     max-width: 800px;
-    width: calc(100% - 40px);
+    width: none;
     margin: auto;
     margin-bottom: 20px;
     padding: 20px;
