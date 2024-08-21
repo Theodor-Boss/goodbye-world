@@ -59,6 +59,7 @@ a {
 
 .portraet {
     height: calc(780px/1.78697183);
+    width: calc(780px/1.78697183);
     padding-right: 20px;
     /* calc(800px / (1 + 447/468)); */
 
