@@ -1,0 +1,87 @@
+body {
+    background-color: white;
+}
+
+
+p, ul, ol {
+    margin: 0 200px 20px 200px;
+}
+
+
+/* Specific styling for unordered lists (bullets) */
+ul {
+    list-style-type: disc; /* Ensures bullets for unordered lists */
+}
+
+/* Specific styling for ordered lists (numbers) */
+ol {
+    list-style-type: decimal; /* Ensures numbers for ordered lists */
+}
+
+/* List item styling */
+li {
+    margin-bottom: 10px; /* Optional: Adds some space between list items */
+}
+
+
+h2 {
+    margin-left: 200px;
+}
+
+h3 {
+    margin-left: 200px;
+}
+
+.brsmall { 
+    display: block; 
+    margin-bottom: 0.5em; 
+} 
+  
+.brmedium { 
+    display: block; 
+    margin-bottom: 1em; 
+} 
+  
+.brlarge { 
+    display: block; 
+    margin-bottom: 2em; 
+} 
+
+
+.python-code {
+    margin: 0 200px 0 200px;
+}
+
+
+.gif {
+    display: flex;
+    justify-content: center;
+}
+
+
+.red-text {
+    color: red;
+}
+
+.kursiv {
+    font-style: italic;
+}
+
+.assignment {
+    margin-left: 200px;
+}
+
+#important-image {
+    border: 4px solid;
+    border-color: red;
+    /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); */
+    border-radius: 20px;
+    display: block; /* Ensure the image does not have any inline spacing */
+}
+
+#negativ-feedback {
+    display: flex;
+    justify-content: center;
+}
+
+

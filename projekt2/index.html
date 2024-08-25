@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head lang="da-DK">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="../img/andersand.webp">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Prism.js CSS for the theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6G8BFEWN6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q6G8BFEWN6');
+    </script>
+</head>
+<body>
+    <header class="header-main">
+        <div class="site-title">theodormyhre.dk</div>
+        <nav></nav>
+        <div></div>
+    </header>
+
+    <h1>Projekt 2: 3D-Vektorfelt for hormonbalancen</h1>
+
+    <div class="gif">
+        <img id="vektorfelt1" src="img/vektorfelt1.gif" alt="">
+    </div>
+
+    <p>
+        Dette projekt lavede jeg da jeg gik i gymnasiet.
+        Projektet er kraftigt inspireret af en 
+        øveeksamensopgave vi lavede på Biologi A om 
+        hormoner. 
+        <br>
+        Opgaven handlede om de tre hormoner LH, FSH og 
+        TSH, som der er en interessant sammenhæng mellem
+        og som dette projekt handler om.
+        <br>
+        Af hensyn til den nysgerrige læsser vedhæfter
+        jeg hele opgaven herunder. Det er dog kun 
+        spørgsmål 4 der er interessant i denne 
+        kontekst. Det har jeg sat en 
+        <span class="red-text">rød</span> ring om, så
+        resten er strengt taget ikke nødvendigt at læse
+        for at forstå mit projekt, men kan gøre det 
+        lettere at følge med:
+    </p>
+        
+    <div class="assignment">
+        <br>
+        <img src="img/Billede1.png" alt="">
+        <br>
+        <img src="img/Billede2.png" alt="">
+        <br>
+        <img src="img/Billede3.png" alt="">
+        <br>
+        <img id="important-image" src="img/Billede4.png" alt="">
+        <br>
+        <img src="img/Billede5.png" alt="">
+        <br>
+    </div>
+
+    <h2>Så hvad går opgaven ud på og hvorfor er den interessant?</h2>
+
+    <p>
+        Opgaven går ud på at forklare resultaterne af et eksperiment. I eksperimentet indsprøjtes 100 mikrogram af et hormon (LH-releasing-hormon), hvorefter koncentrationen af et andet hormon (LH) måles løbende. Målingerne er plottet i et koordinatsystem vist i Figur 3.
+        <br>
+        Opgaven er interessant af flere årsager. Det er selvfølgelig spændende hvordan kroppen fungerer, men det der fascinerer mig er muligheden for at løse opgaven med matematik og programmering. For at se, hvorfor det er smart og interessant at bruge matematik til opgaven, vil jeg forsøge at løse opgaven uden brug af matematik.
+    </p>
+    <p>
+        Der er flere måder at forklare resultaterne af eksperimentet på, men det der sker er grundlæggende et eksempel på <span class="kursiv">negativ feedback</span>.
+    </p>
+
+    <div id="negativ-feedback">
+        <img src="img/negativ-feedback.png" alt="">
+    </div>
+    <h3>Credit: <a target="_blank" href="https://www.detergodtatvide.dk/konshormoner/">detergodtatvide.dk/kønshormoner</a></h3>
+
+    <p>
+        Det der skal forklares er, hvorfor LH-koncentrationen ændrer sig. Der ses en kraftig stigning i koncentrationen af LH kort efter indsprøjtningen af det andet hormon (LH-releasing-hormon), og senere ses et fald i koncentationen af LH. 
+        <span class="brlarge"></span>
+        Forklaringen på stigningen i starten er, at det indsprøjtede hormon (LH-releasing-hormon) har en stimulerende effekt på dannelsen af LH, se opgavens Figur 2.
+        <span class="brsmall"></span>
+        LH-koncentrationen går ned igen efter lidt tid. Det skyldes udskillelsen af hormonet fra blodet, som bl.a. foregår i nyrerne. Udskillelsen finder faktisk sted under hele forløbet 
+        (mere om det senere), 
+        men grunden til at LH-koncentrationen først begynder at falde efter noget tid, er at <span class="kursiv">produktionen</span> af hormonet bliver mindre og mindre med tiden. 
+        <span class="brlarge"></span>
+        Nu opstår dog spørgsmålet, hvorfor produktionen af hormonet bliver mindre og mindre med tiden. Det er lidt sværeste at forklare. Det skyldes nemlig to ting:
+    </p>
+
+    <ul>
+        <li>
+            Den ene grund til at produktionen af LH falder er, at LH går ud i blodet og stimulerer målcellerne til at dannes deres hormon (målcelle-hormon). Dette hormon kommer også ud i blodet og rammer hypofysen, og får den til at mindske produktionen af LH. Dette er et eksempel på simpel, negativ feedback, se Figur 2.
+        </li>
+        <li>
+            Den anden grund til at produktionen af LH falder er, at LH stimuleres positivt af LH-releasing-hormonet (se Figur 2), som jo indspøjtes i starten. LH-releasing-hormon-koncentrationen bliver dog mindre over tid, og derfor stimuleres produktionen af LH ikke nær så meget efter lidt tid.
+        </li>
+    </ul>
+
+    <span class="brlarge"></span>
+    <p>
+        Jeg er dog ikke helt færdig, for hvad er mon grunden til, at LH-releasing-hormon-koncentrationen bliver mindre med tiden?
+        <br>
+        Forklaringen er, at det udskilles fra blodet gennem nyrerne hurtigere end det kan dannes.
+        <br>
+        LH-releasing-hormon dannes naturligt i Hypotalamus i hjernen, men det viser sig, at målcelle-hormonet påvirker hypotalamus til at mindske den naturlige produktion af LH-releasing-hormon (se Figur 2).
+        <span class="brlarge"></span>
+        Så LH stiger, hvilket medfører mere målcelle-hormon, hvilket medfører mindre LH-releasing-hormon, hvilket medfører mindre LH osv. osv.
+    </p>
+    <h2>Hvor matematikken og programmeringen kommer ind i billedet</h2>
+    <p>
+        Det kan altså godt lade sig gøre at forstå dette system til et vist niveau uden at inddrage matematik. Alligevel ser jeg mindst to grunde til at det er oplagt at anvende matematik på det:
+    </p>
+    <ol type="1">
+        <li>
+            For det første
+        </li>
+    </ol>
+
+    <p>  
+        er relativt simpelt, og strengt taget er det ikke nødvendigt at anvende matematik for at forstå hvordan  og vil udvikle sig fra en given startbetingelse (koncentration af de tre hormoner). Det skyldes nok til dels, at flere af variablerne er gensidigt afhængige, og selvom man intuitivt kan se, at LH-koncentrationen nok vil falde, er det alligevel svært at svare på spørgsmål som fx "Hvornår bliver LH-koncentrationen stabil?" eller "Kommer LH-koncentrationen nødvendigvis til at ende på det, den startede på eller er der flere mulige stabile tilstande?" eller "Spiller de forskelligs kirtlers egenskaber nogen rolle for dette?". Man kunne også overveje om LH-koncentationen konvergerer mod noget bestemt, eller om den evt. kunne komme til at oscillere? Sådanne spørgsmål er interessante men kan være vanskelige at svare på... Medmindre man inddrager noget matematik!
+    </p>
+    <h2>Faserum</h2>
+    <p>
+        Vi skal bruge noget matematik, hvis vi virkelig skal forstå hormon-systemer som dette. Det relevante matematik er de såkaldte faserum
+        (<a target="_blank" href="https://en.wikipedia.org/wiki/Phase_space">Phase space</a>).
+        <br>
+        Man bruger tit faserum, når man har at gøre med et system, der udvikler sig over tid. Idéen er at hvert punkt i dette abstrakte rum repræssenterer en tilstand, systemet kan befinde sig i. I dette eksempel med hormonerne, kan hver tilstand tænkes som et punkt/vektor i 3D, da systemets tilstand er entydigt fastlagt med de tre tal [LH-releasing-hormon], [LH] og [Målcelle-hormon] (hvor "[...]" er kemisk notation for den aktualle stofmængdekoncentration). Matematisk notation for en given tilstand er:
+    </p>
+    \[
+    \vec{s} = \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [Målcellehormon] \end{pmatrix}
+    \]
+    <p>
+        Her har jeg valgt \(s\) for "state" (tilstand).
+        <span class="brmedium"></span>
+        Man kan nu forestille sig, at man, efter indsprøjtningen af LH-releasing-hormonet, foretog løbende målinger af de tre hormon-koncentrationer (fx en måling hvert minut). Disse målinger kunne passende plottes i faserummet som 3D-punkter og de ville afspejle systemets udvikling. Herunder demonstreres hvordan det kunne se ud:
+    </p>
+    <div class="gif">
+        <img src="img/faserum1.gif" alt="" style="width: 1000px;">
+    </div>
+    <p>
+        Det interessante spørgsmål er nu: 
+        <br>
+        Hvordan beregner man, hvordan en given tilstand af systemet vil udvikle sig i fremtiden? (Systemet antages jo at være bragt ud af ligevægt.)
+        <span class="brsmall"></span>
+        <br>
+        Svaret er, at man kan gøre det numerisk ved at efterligne universets måde at "beregne" fremtiden på.
+        <span class="brsmall"></span>   
+    </p>
+    <h3>Hvordan universet udregner fremtiden</h3>
+    <p>
+        Man kan forestille sig, at når universet skal "udregne" fremtiden, så sker det ved, at det konstant evaluerer hvor det er på vej hen, og så "bevæger sig et lille stykke i den retning".
+        Vi kan tilnærmelsesvist gøre det samme som universet og udregne, hvordan hormonsystemet ser ud i engang i fremtiden ved at opdele fremtiden  i små bidder og lægge biderne sammen. Vi er dog nødt til at tage én bid af gangen og starte ved begyndelsen, da fremtidens måde at udfolde sig på, jo afhænger af nutiden.
+        <span class="brsmall"></span>
+        Det var en meget uformel måde at formidle idéen på. Lad os nu sætte det på formel. Lad os kigge på, hvordan det kan implementeres i Python:
+    </p>
+
+    <div class="python-code">
+        <pre><code class="language-python">
+            """
+            Funktionen returnerer en fremtidig tilstand for systemet
+            ved at opdatere systemets tilstand små skridt ad gangen 
+            til det ønskede tidspunkt er nået.
+            """
+            def state_in_far_future(self, intitial_state, total_time, time_step):
+                current_state = intitial_state
+                for time in np.arange(0, total_time, time_step):
+                    current_state = self.upcoming_state(current_state, time_step)
+                return current_state
+        </code></pre>
+    </div>
+    <p>
+        <span class="kursiv">Udsnit af kode. Hele koden viser nedenfor.</span>
+        <span class="brsmall"></span>
+    </p>
+    <h2>Matematikken bag</h2>
+    <p>
+        Dette er ekstremt brugbart i mange sammenhænge. Det der kan være udfordrende ved at bruge metoden er, at man har brug for en matematisk beskrivelse af, hvordan tilstanden skal opdateres mellem hvert tidskridt. Med andre ord har man brug for faserummets første afledede, dvs:
+    </p>
+    \[
+    \Large \frac{d\vec{s}}{dt}
+    \]
+
+    \[
+    \vec{s} = \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [Målcellehormon] \end{pmatrix}
+    \]
+
+
+    <div class="python-code">
+        <pre><code class="language-python">
+            import numpy as np
+
+
+            class State:
+                def __init__(self, lhreleasinghormon, lh, maalcellehormon):
+                    self.lhreleasinghormon = lhreleasinghormon
+                    self.lh = lh
+                    self.maalcellehormon = maalcellehormon
+
+
+            class System:
+                def __init__(self, c1, c2, c3, c4, c5, c6, c7, c8, c9):
+                    self.c1 = c1
+                    self.c2 = c2
+                    self.c3 = c3
+                    self.c4 = c4
+                    self.c5 = c5
+                    self.c6 = c6
+                    self.c7 = c7
+                    self.c8 = c8
+                    self.c9 = c9
+
+                def faldskaerm(self, x):
+                    if x > 100:
+                        return 1
+                    elif x < -100:
+                        return -1
+                    else:
+                        return (np.exp(x) - 1) / (np.exp(x) + 1)
+
+                def derivative(self, lhreleasinghormon, lh, maalcellehormon):
+                    lhreleasinghormon_dot = self.c1 * np.exp(- self.c2 * maalcellehormon) - self.c3 * lhreleasinghormon
+                    lh_dot = self.c4 * self.faldskaerm(self.c5 * lhreleasinghormon) * np.exp(-maalcellehormon) - self.c6 * lh
+                    maalcellehormon_dot = self.c7 * self.faldskaerm(self.c8 * lh) - self.c9 * maalcellehormon
+                    return lhreleasinghormon_dot, lh_dot, maalcellehormon_dot
+
+                def upcoming_state(self, state, time_step):
+                    lhreleasinghormon_dot, lh_dot, maalcellehormon_dot = self.derivative(
+                        state.lhreleasinghormon,
+                        state.lh,
+                        state.maalcellehormon
+                    )
+                    new_lhreleasinghormon = state.lhreleasinghormon + lhreleasinghormon_dot * time_step
+                    new_lh = state.lh + lh_dot * time_step
+                    new_maalcellehormon = state.maalcellehormon + maalcellehormon_dot * time_step
+                    return State(new_lhreleasinghormon, new_lh, new_maalcellehormon)
+
+                def state_in_far_future(self, intitial_state, total_time, time_step):
+                    current_state = intitial_state
+                    for time in np.arange(0, total_time, time_step):
+                        current_state = self.upcoming_state(current_state, time_step)
+                    return current_state
+        </code></pre>
+    </div>
+
+    <p>Here is an inline formula: \( E = mc^2 \).</p>
+    <p>Here is a displayed formula:</p>
+    \[
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    \]
+
+
+    <br>
+    <br>
+    <br>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+</body>
+</html>
