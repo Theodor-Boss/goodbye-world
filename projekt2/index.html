@@ -272,144 +272,115 @@
         \(
         \large \frac{d}{dt} [målcellehormon]
         \)
-        <span class="brmedium"></span>
+    </p>
+    <span class="brmedium"></span>
+    <p>
         Den sidste differentialligning skal beskrive ændringen i koncentrationen af målcellehormonet pr. tidsenhed. Målcellerne reagerer på LH med positiv feedback. Jeg benytter igen "faldskærmsfunktionen" (\(f\)). Modellen bliver dermed:
     </p>
     \[
     \boxed{
-    \Huge \frac{d}{dt} [målcellehormon] = c_8 \cdot \frac{e^{c_9 \cdot [LH]}-1}{e^{c_9 \cdot [LH]}+1}-c_{10} \cdot [målcellehormon]
+    \huge \frac{d}{dt} [målcellehormon] = c_8 \cdot \frac{e^{c_9 \cdot [LH]}-1}{e^{c_9 \cdot [LH]}+1}-c_{10} \cdot [målcellehormon]
     }
     \]
     <p>
-        Vi har hermed opstillet vektorfeltet:
+        Vi har altså opstillet dette vektorfelt:
     </p>
 
     \[
     \boxed{
-
-        
+    \huge \frac{d}{dt} \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [målcellehormon] \end{pmatrix} = \begin{pmatrix} c_1 \cdot e^{-c_2 \cdot[målcellehormon]} - c_3 \cdot [LHreleasinghormon] \\ c_4 \cdot \frac{e^{c_5 \cdot [LHreleasinghormon]}-1}{e^{c_5 \cdot [LHreleasinghormon]}+1} \cdot e^{- c_6 \cdot [målcellehormon]} - c_7 \cdot [LH] \\ c_8 \cdot \frac{e^{c_9 \cdot [LH]}-1}{e^{c_9 \cdot [LH]}+1}-c_{10} \cdot [målcellehormon] \end{pmatrix}
     }
     \]
 
-    <br>
+    <span class="brlarge"></span>
 
-    \[
-    \frac{d}{dt} [LH]
-    \]
-
-    \[
-    \frac{d}{dt} [målcellehormon]
-    \]
+    <h2>Implementering i Python</h2>
 
     <p>
-
-    </p>
-
-
-    <p>
-    Lad os kigge på, hvordan det kan implementeres i Python:
+    Vi har nu styr på matematik-delen. Lad os nu kigge på, hvordan det kan implementeres i Python:
     </p>
 
     <div class="python-code">
         <pre><code class="language-python">
-            """
-            Funktionen returnerer en fremtidig tilstand for systemet
-            ved at opdatere systemets tilstand små skridt ad gangen 
-            til det ønskede tidspunkt er nået.
-            """
-            def state_in_far_future(self, intitial_state, total_time, time_step):
-                current_state = intitial_state
-                for time in np.arange(0, total_time, time_step):
-                    current_state = self.upcoming_state(current_state, time_step)
-                return current_state
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+class State:
+    def __init__(self, lhreleasinghormon, lh, maalcellehormon):
+        self.lhreleasinghormon = lhreleasinghormon
+        self.lh = lh
+        self.maalcellehormon = maalcellehormon
+
+    def get_content(self):
+        return [self.lhreleasinghormon, self.lh, self.maalcellehormon]
+
+
+class System:
+    def __init__(self, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10):
+        self.c1 = c1
+        self.c2 = c2
+        self.c3 = c3
+        self.c4 = c4
+        self.c5 = c5
+        self.c6 = c6
+        self.c7 = c7
+        self.c8 = c8
+        self.c9 = c9
+        self.c10 = c10
+
+    def faldskaerm(self, x):
+        if x > 100:
+            return 1
+        elif x < -100:
+            return -1
+        else:
+            return (np.exp(x) - 1) / (np.exp(x) + 1)
+
+    def derivative(self, lhreleasinghormon, lh, maalcellehormon):
+        lhreleasinghormon_dot = self.c1 * np.exp(- self.c2 * maalcellehormon) - self.c3 * lhreleasinghormon
+        lh_dot = self.c4 * self.faldskaerm(self.c5 * lhreleasinghormon) * np.exp(- self.c6 * maalcellehormon) - self.c7 * lh
+        maalcellehormon_dot = self.c8 * self.faldskaerm(self.c9 * lh) - self.c10 * maalcellehormon
+        return lhreleasinghormon_dot, lh_dot, maalcellehormon_dot
+
+    def upcoming_state(self, state, time_step):
+        lhreleasinghormon_dot, lh_dot, maalcellehormon_dot = self.derivative(
+            state.lhreleasinghormon,
+            state.lh,
+            state.maalcellehormon
+        )
+        new_lhreleasinghormon = state.lhreleasinghormon + lhreleasinghormon_dot * time_step
+        new_lh = state.lh + lh_dot * time_step
+        new_maalcellehormon = state.maalcellehormon + maalcellehormon_dot * time_step
+        return State(new_lhreleasinghormon, new_lh, new_maalcellehormon)
+
+    def future_state(self, intitial_state, total_time, time_step):
+        current_state = intitial_state
+        for time in np.arange(0, total_time, time_step):
+            current_state = self.upcoming_state(current_state, time_step)
+        return current_state
+
+    def future_state_vectorized(self, intitial_state, sorted_times, time_step):
+        """
+        Antager at sorted_times er sorteret og
+        består af unikke, ikke-negative tal
+        og at mindste tidsforskel i
+        sorted_times er større end time_step.
+        """
+        current_state = intitial_state
+        states = []
+        counter = 0
+        time = 0
+        while counter < len(sorted_times):
+            if time >= sorted_times[counter]:
+                states.append(current_state)
+                counter += 1
+            current_state = self.upcoming_state(current_state, time_step)
+            time += time_step
+        return states
         </code></pre>
     </div>
-    <p>
-        <span class="kursiv">Udsnit af kode. Hele koden viser nedenfor.</span>
-        <span class="brsmall"></span>
-    </p>
-    <h2>Matematikken bag</h2>
-    <p>
-        Dette er ekstremt brugbart i mange sammenhænge. Det der kan være udfordrende ved at bruge metoden er, at man har brug for en matematisk beskrivelse af, hvordan tilstanden skal opdateres mellem hvert tidskridt. Med andre ord har man brug for faserummets første afledede, dvs:
-    </p>
-    \[
-    \Large \frac{d\vec{s}}{dt}
-    \]
-
-    \[
-    \vec{s} = \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [Målcellehormon] \end{pmatrix}
-    \]
-
-
-    <div class="python-code">
-        <pre><code class="language-python">
-            import numpy as np
-
-
-            class State:
-                def __init__(self, lhreleasinghormon, lh, maalcellehormon):
-                    self.lhreleasinghormon = lhreleasinghormon
-                    self.lh = lh
-                    self.maalcellehormon = maalcellehormon
-
-
-            class System:
-                def __init__(self, c1, c2, c3, c4, c5, c6, c7, c8, c9):
-                    self.c1 = c1
-                    self.c2 = c2
-                    self.c3 = c3
-                    self.c4 = c4
-                    self.c5 = c5
-                    self.c6 = c6
-                    self.c7 = c7
-                    self.c8 = c8
-                    self.c9 = c9
-
-                def faldskaerm(self, x):
-                    if x > 100:
-                        return 1
-                    elif x < -100:
-                        return -1
-                    else:
-                        return (np.exp(x) - 1) / (np.exp(x) + 1)
-
-                def derivative(self, lhreleasinghormon, lh, maalcellehormon):
-                    lhreleasinghormon_dot = self.c1 * np.exp(- self.c2 * maalcellehormon) - self.c3 * lhreleasinghormon
-                    lh_dot = self.c4 * self.faldskaerm(self.c5 * lhreleasinghormon) * np.exp(-maalcellehormon) - self.c6 * lh
-                    maalcellehormon_dot = self.c7 * self.faldskaerm(self.c8 * lh) - self.c9 * maalcellehormon
-                    return lhreleasinghormon_dot, lh_dot, maalcellehormon_dot
-
-                def upcoming_state(self, state, time_step):
-                    lhreleasinghormon_dot, lh_dot, maalcellehormon_dot = self.derivative(
-                        state.lhreleasinghormon,
-                        state.lh,
-                        state.maalcellehormon
-                    )
-                    new_lhreleasinghormon = state.lhreleasinghormon + lhreleasinghormon_dot * time_step
-                    new_lh = state.lh + lh_dot * time_step
-                    new_maalcellehormon = state.maalcellehormon + maalcellehormon_dot * time_step
-                    return State(new_lhreleasinghormon, new_lh, new_maalcellehormon)
-
-                def state_in_far_future(self, intitial_state, total_time, time_step):
-                    current_state = intitial_state
-                    for time in np.arange(0, total_time, time_step):
-                        current_state = self.upcoming_state(current_state, time_step)
-                    return current_state
-        </code></pre>
-    </div>
-
-    <p>Here is an inline formula: \( E = mc^2 \).</p>
-    <p>Here is a displayed formula:</p>
-    \[
-    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
-    \]
-
-
-    <br>
-    <br>
-    <br>
-
-
+    
     <br>
     <br>
     <br>
