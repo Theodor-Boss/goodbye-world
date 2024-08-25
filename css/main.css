@@ -206,6 +206,37 @@ li {
     background-color: #a6c772a2;
 }
 
+.projekter .box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.projekter .box > div {
+    flex: 1 1 calc(50% - 10px); /* Grow to fill space, but never shrink below 200px */
+    /* max-width: calc(50% - 10px); */
+    min-width: 200px; /* Ensure each project box is at least 200px wide */
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.projekt1 {
+    background-color: rgb(0, 255, 136);
+}
+
+.projekt2 {
+    background-color: red;
+}
+
+.projekt3 {
+    background-color: rgb(0, 17, 255);
+}
+
+.projekt4 {
+    background-color: rgb(255, 251, 0);
+}
+
+
 .uddannelse {
     max-width: 800px;
     width: calc(100% - 40px);
