@@ -53,11 +53,15 @@ h3 {
     margin: auto;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #b4c747bd;
+    /* background-color: #b4c747bd; */
 }
 
 .python-code {
-    margin: 0 200px 0 200px;
+    max-width: 800px;
+    width: calc(100% - 40px);
+    margin: auto;
+
+    /* margin: 0 200px 0 200px; */
 }
 
 
@@ -76,7 +80,7 @@ h3 {
 }
 
 .assignment {
-    margin-left: 200px;
+    margin: auto;
 }
 
 #important-image {
