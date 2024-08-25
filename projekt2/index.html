@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="css/main.css">
 
+    <!-- LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <!-- Prism.js CSS for the theme -->
@@ -124,50 +127,187 @@
     </p>
     <h2>Hvor matematikken og programmeringen kommer ind i billedet</h2>
     <p>
-        Det kan altså godt lade sig gøre at forstå dette system til et vist niveau uden at inddrage matematik. Alligevel ser jeg mindst to grunde til at det er oplagt at anvende matematik på det:
+        Det kan altså godt lade sig gøre at forstå dette system på et vist niveau uden at inddrage røre matematik. Jeg ser dog mindst tre grunde til at det alligevel er oplagt at anvende matematik på det:
     </p>
     <ol type="1">
         <li>
-            For det første
+            For det første er det ikke alle spørgsmål der kan besvares alene ud fra intuition. Det er nemlig svært at svare på kvantitative spørgsmål, fx "Hvis en stabil tilstand findes, hvad er da hormon-koncentrationerne i denne tilstand?"
+        </li>
+        <li>
+            For det andet kommer intuitionen til kort, når kompleksiteten øges, fx hvis det viser sig, at der er flere hormoner i spil.
+        </li>
+        <li>
+            For det trejde er det noget pænt interessant matematik, hvor der er rig mulighed for at udfolde sin kreativitet og anvende det meget generelt.
         </li>
     </ol>
-
-    <p>  
-        er relativt simpelt, og strengt taget er det ikke nødvendigt at anvende matematik for at forstå hvordan  og vil udvikle sig fra en given startbetingelse (koncentration af de tre hormoner). Det skyldes nok til dels, at flere af variablerne er gensidigt afhængige, og selvom man intuitivt kan se, at LH-koncentrationen nok vil falde, er det alligevel svært at svare på spørgsmål som fx "Hvornår bliver LH-koncentrationen stabil?" eller "Kommer LH-koncentrationen nødvendigvis til at ende på det, den startede på eller er der flere mulige stabile tilstande?" eller "Spiller de forskelligs kirtlers egenskaber nogen rolle for dette?". Man kunne også overveje om LH-koncentationen konvergerer mod noget bestemt, eller om den evt. kunne komme til at oscillere? Sådanne spørgsmål er interessante men kan være vanskelige at svare på... Medmindre man inddrager noget matematik!
-    </p>
     <h2>Faserum</h2>
+    <p>  
+        Den relevante matematik er 
+        <a target="_blank" href="https://en.wikipedia.org/wiki/Phase_space">faserum</a>, 
+        <a target="_blank" href="https://en.wikipedia.org/wiki/Vector_field">vektorfelter</a>, og
+        <a target="_blank" href="https://en.wikipedia.org/wiki/System_of_differential_equations">systemer af ordinære førsteordens differentialligninger</a>.
+        Hvis dette er ukendt for læseren, kan jeg henvise til 3b1b's fremragende video om stoffet:
+        <span class="brlarge"></span>
+        <a target="_blank" href="https://www.3blue1brown.com/lessons/differential-equations">3b1b: Differential equations, studying the unsolvable</a>
+        <span class="brlarge"></span>
+    </p>
     <p>
-        Vi skal bruge noget matematik, hvis vi virkelig skal forstå hormon-systemer som dette. Det relevante matematik er de såkaldte faserum
-        (<a target="_blank" href="https://en.wikipedia.org/wiki/Phase_space">Phase space</a>).
-        <br>
-        Man bruger tit faserum, når man har at gøre med et system, der udvikler sig over tid. Idéen er at hvert punkt i dette abstrakte rum repræssenterer en tilstand, systemet kan befinde sig i. I dette eksempel med hormonerne, kan hver tilstand tænkes som et punkt/vektor i 3D, da systemets tilstand er entydigt fastlagt med de tre tal [LH-releasing-hormon], [LH] og [Målcelle-hormon] (hvor "[...]" er kemisk notation for den aktualle stofmængdekoncentration). Matematisk notation for en given tilstand er:
+        Mit primære fokus i dette projekt var at opstille en matematisk model for systemet og bruge numeriske metoder til at anvende og studere modellen.
+        <span class="brsmall"></span>
+        Kernen i opgaven er det her faserum, som består af alle mulige tilstande af systemet. Der er tre variable, nemlig koncentrationen af hhv. LH-releasing-hormon, LH og målcellehormon, så faserummet er i 3D:
     </p>
     \[
-    \vec{s} = \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [Målcellehormon] \end{pmatrix}
+    \Large \vec{s} = \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [målcellehormon] \end{pmatrix}
     \]
     <p>
-        Her har jeg valgt \(s\) for "state" (tilstand).
+        Her har jeg valgt \(s\) for "state".
         <span class="brmedium"></span>
-        Man kan nu forestille sig, at man, efter indsprøjtningen af LH-releasing-hormonet, foretog løbende målinger af de tre hormon-koncentrationer (fx en måling hvert minut). Disse målinger kunne passende plottes i faserummet som 3D-punkter og de ville afspejle systemets udvikling. Herunder demonstreres hvordan det kunne se ud:
+        Der ønskes en model af, hvordan en given tilstand ændrer sig over tid for et givent system. Mere præcist ønsker vi at beskrive den <span class="kursiv">hastighed </span> - altså en 3D-vektor - en given tilstand bevæger sig med i det abstrakte faserum (3b1b forklarer rigtig godt. Se hans video!). For klarhedens skyld har jeg animeret, hvordan det evt. kunne se ud, når systemet udvikler sig og 3D-punktet - der repræsenterer systemets tilstand - flytter sig:
     </p>
     <div class="gif">
-        <img src="img/faserum1.gif" alt="" style="width: 1000px;">
+        <img src="img/faserum2.gif" alt="" style="width: 600px;">
     </div>
     <p>
-        Det interessante spørgsmål er nu: 
-        <br>
-        Hvordan beregner man, hvordan en given tilstand af systemet vil udvikle sig i fremtiden? (Systemet antages jo at være bragt ud af ligevægt.)
-        <span class="brsmall"></span>
-        <br>
-        Svaret er, at man kan gøre det numerisk ved at efterligne universets måde at "beregne" fremtiden på.
-        <span class="brsmall"></span>   
+        <span class="red-text">Den røde vektor</span> angiver hastigheden af punktet.
     </p>
-    <h3>Hvordan universet udregner fremtiden</h3>
     <p>
-        Man kan forestille sig, at når universet skal "udregne" fremtiden, så sker det ved, at det konstant evaluerer hvor det er på vej hen, og så "bevæger sig et lille stykke i den retning".
-        Vi kan tilnærmelsesvist gøre det samme som universet og udregne, hvordan hormonsystemet ser ud i engang i fremtiden ved at opdele fremtiden  i små bidder og lægge biderne sammen. Vi er dog nødt til at tage én bid af gangen og starte ved begyndelsen, da fremtidens måde at udfolde sig på, jo afhænger af nutiden.
-        <span class="brsmall"></span>
-        Det var en meget uformel måde at formidle idéen på. Lad os nu sætte det på formel. Lad os kigge på, hvordan det kan implementeres i Python:
+        Matematisk set fås denne vektor ved at differentiere tilstanden \(\vec{s}\) med hensyn til tiden:
+    </p>
+    \[
+    \Large \frac{d\vec{s}}{dt} = \frac{d}{dt} \begin{pmatrix} [LHreleasinghormon] \\ [LH] \\ [målcellehormon] \end{pmatrix} = \begin{pmatrix} \frac{d}{dt} [LHreleasinghormon] \\ \frac{d}{dt} [LH] \\ \frac{d}{dt} [målcellehormon] \end{pmatrix}
+    \]
+
+    <p></p>
+    
+    <p>
+        Dette er et system af differentialligninger, men det er faktisk også et vektorfelt, for \(\large \frac{d\vec{s}}{dt}\) afhænger nemlig af \(\vec{s}\) snarere end \(t\) (Systemet har ingen hukommelse).
+        <br>
+        Grunden til at vi er så interesserede i dette vektorfelt er at det giver os mulighed for at simulere systemets udvikling over tid. Alternativt kunne man også prøve at løse differentialligningssystemet analytisk, men det er som regel umuligt.
+    </p>
+
+    <h2>Opstilning af differentialligninger</h2>
+
+    <p>
+        Vi skal altså have opstillet tre differentialligniner - én pr. hormon, dvs. vi skal have fundet på nogle fornuftige modeller for, hvordan hormon-koncentrationen ændrer sig pr. tidsenhed som funktion af tilstanden \(\vec{s}\). Vi tager dem én af gangen:
+    </p>
+    <p>
+        \(
+        \large \frac{d}{dt} [LHreleasinghormon]
+        \)
+    </p>
+    <p>
+        Ændringen i koncentrationen af LH-releasing-hormonet (hypothalamus-hormonet) - afhænger af hvor hurtigt hypothalamus arbejder fratrukket hvor hurtigt kroppen udskiller hormonet fra blodet (det sker vist i nyrerne). Hvor hurtigt hypothalamus arbejder er betinget af koncentrationen af hormonet dannet i målcellerne. Jo højere koncentration, jo mindre aktiv er hypothalamus. Jeg søger derfor en funktion, som er størst, når koncentrationen af målcelle-hormonet er lav og nærmer sig 0, når koncentrationen af målcelle-hormonet er høj. Eksponentialfunktionen virker som et oplagt valg:
+    </p>
+    <div class="gif">
+        <img src="img/LH-releasing-hormon-produktion.png" alt="" style="width: 800px;">
+    </div>
+    <p>
+        Jeg antager desuden, at hvor hurtigt de tre hormoner udskilles fra blodet er ligefrem proportionalt med koncentrationen (Fra matematikken ved vi, at det giver en eksponentiel (negativ) vækst).
+        <span class="brmedium"></span>
+        En fin model for ændringen i koncentrationen af LH-releasing-hormonet (pr. tidsenhed) er altså:
+    </p>
+    \[
+    \boxed{
+    \huge \frac{d}{dt} [LHreleasinghormon] = c_1 \cdot e^{-c_2 \cdot[målcellehormon]} - c_3 \cdot [LHreleasinghormon]
+    }
+    \]
+    <p>
+        Her er \(c_1\), \(c_2\) og \(c_3\) konstanter, hvor \(c_1\) kan tænkes som den maksimale produktionshastighed af LH-releasing-hormonet. \(c_2\) fortæller noget om, hvor hurtigt produktionen af LH-releasing-hormonet mindskes, når [målcellehormonet] øges. \(c_3\) bestemmer, hvor hurtigt LH-releasing-hormonet fjernes fra blodet.
+    </p>
+    <span class="brlarge"></span>
+    <p>
+        \(
+        \large \frac{d}{dt} [LH]
+        \)
+    </p>
+    <p>
+        For LH-hormonet søger vi en differentialligning, som beskriver det forhold, at hypofysen reagerer med positiv feedback på LH-releasing-hormonet, og negativ feedback på målcelle-hormonet, dvs. en funktion af to variable. Det kunne fx være denne funktion:
+    </p>
+    <div class="gif">
+        <img src="img/LH-positiv-og-negativ-feedback.png" alt="" style="width: 800px;">
+    </div>
+    <p>
+        Det ses, at produktionen af LH er lav når [målcelle-hormon] er høj. Den maksimale produktionshastighed sker når [LH-releasing-hormon] er høj, og [målcelle-hormon] er fraværende.
+        <br>
+        Funktionen er fremkommet ud fra følgende ræsonnement:
+        <br>
+        Antag først at målcelle-hormonet ikke er til stede ved hypofysen. Da er produktionen af LH alene en funktion af LH-releasing-hormonet. Det virker oplagt, at produktionen af LH er 0, når [LH-releasing-hormon] er 0. Produktionen stiger, når [LH-releasing-hormon] vokser, men den kan selvfølgelig kun vokse til et vist punkt (Der er grænser for, hvor hurtigt en kirtel kan arbejde). Jeg vil forvente en funktion, der vokser langsommere og langsommere og til sidst flader ud, og til det formål vil jeg anvende, hvad jeg vil kalde "faldskærmsfunktionen" (da man kan udlede, at det faktisk er denne v(t)-funktion der gør sig gældende ved et frit fald med luftmodstand. Det antages at luftmodstanden er kvadratisk proportional med farten). Den ser sådan her ud:
+    </p>
+    \[
+    \Large f(x)=\frac{e^x-1}{e^x+1}=\frac{1}{1+e^{-x}}-\frac{1}{1+e^x}
+    \]    
+    <p>
+        Omskrivningen viser, at det er en sum af to logistiske funktioner. Grafen for \(f\) er vist her:
+    </p>
+    <div class="gif">
+        <img src="img/LH-positiv-feedback.png" alt="" style="width: 800px;">
+    </div>
+    <p>
+        Så nu har vi en model for produktionshastigheden af LH, når målcellehormonet ikke er til stede. Men hvad hvis det <span class="kursiv">er</span> til stede?
+        <span class="brmedium"></span>
+        Jeg fik den idé at knytte et tal mellem 0 og 1 til hver koncentation af målcellehormonet og gange det med \(f\). Det sikrer at grafens facon bevares for en fastholdt værdi af [målcellehormon].
+        Tallet der ganges på \(f\) skal være 1, når [målcellehormon] er 0 og nærme sig 0, når [målcellehormon] øges. Eksponentialfunktionen virker altså igen omlagt. Det giver os et rimeligt bud på modellen:
+    </p>
+    \[
+    \boxed{
+    \huge \frac{d}{dt} [LH] = c_4 \cdot \frac{e^{c_5 \cdot [LHreleasinghormon]}-1}{e^{c_5 \cdot [LHreleasinghormon]}+1} \cdot e^{- c_6 \cdot [målcellehormon]} - c_7 \cdot [LH]
+    }
+    \]
+
+    <p>
+        Det er egentlig sjovt, at LH-producenten har denne noget sofistikerede funktion indbygget i sig! Måske det skal være mit næste projekt at undersøge, hvordan det virker.
+    </p>
+    <span class="brmedium"></span>
+    <p>
+        Her er \(c_4\) en konstant der kan fortolkes som den maksimale produktionshastighed af LH. 
+        <br>
+        \(c_5\) er et tal der bestemmer hvor kraftigt LH-releasing-hormonet virker på hypofysens produktion af LH, dvs. hvor meget af stoffet der skal til for at opnå fx 50% af maksimumkapaciteten.
+        <br>
+        \(c_6\) bestemmer hvor kraftigt målcellehormonet virker på at dæmpe hypofysens produktion af LH.
+        <br>
+        Jeg har ligesom før fratrukket leddet \(c_7 \cdot [LH]\) for at tage højde for det, der fjernes af nyrerne.
+    </p>
+    <span class="brlarge"></span>
+    <p>
+        \(
+        \large \frac{d}{dt} [målcellehormon]
+        \)
+        <span class="brmedium"></span>
+        Den sidste differentialligning skal beskrive ændringen i koncentrationen af målcellehormonet pr. tidsenhed. Målcellerne reagerer på LH med positiv feedback. Jeg benytter igen "faldskærmsfunktionen" (\(f\)). Modellen bliver dermed:
+    </p>
+    \[
+    \boxed{
+    \Huge \frac{d}{dt} [målcellehormon] = c_8 \cdot \frac{e^{c_9 \cdot [LH]}-1}{e^{c_9 \cdot [LH]}+1}-c_{10} \cdot [målcellehormon]
+    }
+    \]
+    <p>
+        Vi har hermed opstillet vektorfeltet:
+    </p>
+
+    \[
+    \boxed{
+
+        
+    }
+    \]
+
+    <br>
+
+    \[
+    \frac{d}{dt} [LH]
+    \]
+
+    \[
+    \frac{d}{dt} [målcellehormon]
+    \]
+
+    <p>
+
+    </p>
+
+
+    <p>
+    Lad os kigge på, hvordan det kan implementeres i Python:
     </p>
 
     <div class="python-code">
