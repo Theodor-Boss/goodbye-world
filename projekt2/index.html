@@ -393,7 +393,131 @@ class System:
     </p>
     <h1>Lad os bruge koden</h1>
     <p>
-        
+        Her har jeg brugt koden til at finde frem til koncentrationen af de tre hormoner ved starttidspunktet. Jeg har lavet en genetisk algoritme, inspireret af princippet naturlig selektion, til at finde frem til de 10 konstanter i modellen ved at bruge målepunkterne fra opgaven. Her ses hvordan algoritmen langsomt kommer tættere og tættere på at beskrive dataene:
+    </p>
+    <div class="gif">
+        <img src="img/natural-selektion.gif" alt="" style="width: 600px;">
+    </div>
+
+    <div class="python-code">
+        <pre><code class="language-python">
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def gamma_ish(mu_list, sigma_list):
+    sample_list = []
+    for i in range(len(mu_list)):
+        sample = -1
+        while sample < 0:
+            sample = np.random.normal(mu_list[i], sigma_list[i])
+        sample_list.append(sample)
+    return np.array(sample_list)
+
+
+def cost_function_LH(system, state, data_tuple, time_step):
+    x_data, y_data = data_tuple
+    container = my_system.future_state_vectorized(
+        init_state, x_data, time_step
+    )
+    unpacked_states = [state.get_content() for state in container]
+    matrix1 = np.array(unpacked_states).T
+    error = np.sum((y_data - matrix1[1]) ** 2)
+    return error, matrix1[1]
+
+
+data = [
+    (0, 50),
+    (15, 338.84766),
+    (30, 428.71816),
+    (50, 400.18376),
+    (60, 360.62972),
+    (120, 208.98756),
+    (180, 156.81751),
+]
+
+x_data = [point[0] for point in data]
+y_data = [point[1] for point in data]
+
+
+system_knobs = np.array([1, 1, 1, 1, 1, 1, 1, 1, 1, 1], dtype=float)
+system_state = np.array([7, 9, 13], dtype=float)
+
+
+time_step = 1
+spread = 0.4
+error = np.inf
+
+output_file = "evolution_data.npz"
+output_file_extra = "evolution_data_extra.npz"
+
+
+fig, ax = plt.subplots()
+
+def run_optimization():
+    global error, system_knobs, system_state, my_system, init_state, counter
+    new_system_knobs = gamma_ish(system_knobs, spread * system_knobs)
+    new_system_state = gamma_ish(system_state, spread * system_state)
+
+    my_system = main.System(*new_system_knobs)
+    init_state = main.State(*new_system_state)
+
+    new_error, evolution_extra = cost_function_LH(my_system, init_state, (x_data, y_data), time_step)
+    if new_error < error:
+        system_knobs = new_system_knobs
+        system_state = new_system_state
+        error = new_error
+
+
+counter = 0
+
+
+def run():
+    global counter
+    while True:
+        counter += 1
+        run_optimization()
+        # print(counter)
+        time.sleep(0.001)
+
+
+run()
+            
+        </code></pre>
+    </div>
+
+    <div class="layout">
+        <p>
+            Algoritmen når frem til at konstanterne i systemet må være:
+            <br>
+            c1= 6.03284186e-02 
+            <br>
+            c2= 5.66676837e+00 
+            <br>
+            c3= 3.23887793e-03 
+            <br>
+            c4= 3.38888400e+01    
+            <br>
+            c5= 7.66748974e+00 
+            <br>
+            c6= 9.47944174e-04 
+            <br>
+            c7= 4.38393164e-02 
+            <br>
+            c8= 2.20801044e+01    
+            <br>
+            c9= 7.30976459e-02 
+            <br>
+            c10= 1.00794645e-02
+
+            <br>
+            <br>
+            (Uddyber det senere)
+        </p>
+
+    </div>
+    
+
     </p>
 </div>
     <br>
