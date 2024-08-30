@@ -52,6 +52,13 @@ li {
 }
 
 
+.bold {
+    font-weight: bold;
+}
+
+
+
+
 .site-title {
     font-family: 'Arial', sans-serif;
     font-size: 40px;
