@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head lang="da-DK">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" href="../img/andersand.webp">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- LaTeX -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <!-- Prism.js CSS for the theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+    <!-- Prism.js JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6G8BFEWN6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q6G8BFEWN6');
+    </script>
+</head>
+<body>
+    <header class="header-main">
+        <div class="site-title">theodormyhre.dk</div>
+        <nav></nav>
+        <div></div>
+    </header>
+
+    <h1>Studieretningsprojekt: Vektorfelter og fysiske penduler</h1>
+
+    <div class="layout">
+    <p>
+        Dette er highlights fra mit studieretningsprojekt i gymnasiet, som jeg skrev i matematik A og fysik A.
+        <br>
+        Opgaven handlede om at beskrive et fysisk pendul med en differentialligning. Og at bruge vektorfelter i den forbindelse.
+    </p>
+    <div class="gif">
+        <img id="vektorfelt1" src="img/vektorfelt.png" alt="">
+    </div>
+</div>
+
+<div class="layout">
+    <h2>Resumé</h2>
+    <p>
+        I det her projekt opstillede jeg en differentialligning for et fysisk penduls bevægelse med dæmpning. Jeg bruger et vektorfelt/faserum til at løse differentialligningen numerisk. Desuden udvikler jeg en række numeriske metoder til at trække information ud af mine 26.000 målepunkter.
+    </p>
+    <h2>Credit</h2>
+    <p>
+        Idéen til min SRP har jeg egentlig tyvestjålet fra 3b1b. Eller lad mig sige det sådan: Meget af teorien i opgaven bærer tydeligt præg af hans fremragende video om stoffet:
+        <span class="brlarge"></span>
+        <a target="_blank" href="https://www.3blue1brown.com/lessons/differential-equations">3b1b: Differential equations, studying the unsolvable</a>
+        <span class="brlarge"></span>
+        Det originale i min opgave er at jeg opstiller en differentialligning der gælder for et hvilket som helst stift pendul, hvor 3b1b fokusserer på det simple pendul. Desuden antager 3b1b, at friktionen i pendulet er proportional med vinkelhastigheden \(\dot{\theta}=\frac{d\theta}{dt}\), hvor jeg prøver at gå et spadestik dybere og lave fysiske målinger af pendulet i et forsøg på at afdække den nøjagtige sammenhæng mellem dæmpningen og vinkelhastigheden \(\dot{\theta}\) (og om dæmpningen evt. også kunne afhænge af vinklen \(\theta\)). Dvs. min tilgang er både teoretisk og empirisk.
+    </p>
+    <h2>Teori</h2>
+    <p>
+        Ved hjælp af nogle fysiske overvejelser, kan man komme frem til at en realistisk model af et fysisk pendul med friktion kan beskrives med denne differentialligning:
+    </p>
+</div>
+    \[
+    \boxed{
+    \huge \ddot{\theta} = \mu(\dot{\theta}) + \frac{mgd}{I}sin(\theta)
+    }
+    \]
+<div class="layout">
+    <p>
+        Forklaring:
+        <ul>
+            <li>
+                \(\theta\) (theta) er vinklen målt i radianer. Vi bestemmer, at pendulet har en vinkel på 0 radianer, når det er lodret, altså når massemidtpunktet befinder sig direkte under rotationsaksen, hvilket medfører, at den potentielle energi er mindst ved \(\theta=0\). Vi bestemmer, at vinklen stiger, når pendulet drejer modsat urets retning (og vinkel bliver dermed mere negativ, når pendulet drejer med urets retning).
+            </li>
+            <li>
+                \(\dot{\theta}=\frac{d\theta}{dt}\) er vinkelhastigheden, dvs. vinklen differentieret (nogle gange bruges i stedet \(\omega\) (omega). Det har jeg fx gjort i koden). Den måles i radianer per sekund, og er et mål for, hvor hurtigt pendulet drejer. Det følger af det, vi har besluttet om vinklen, at en positiv vinkelhastighed svarer til, at pendulet drejer modsat urets retning.
+            </li>
+            <li>
+                \(\ddot{\theta}=\frac{d^2\theta}{dt^2}\) er vinkelaccelerationen, dvs. vinkelhastigheden differentieret, eller vinklen differentieret to gange (nogle gange bruges i stedet \(\alpha\) (alpha). Det har jeg fx gjort i koden). Den måles i radianer per sekund per sekund, og er et mål for, hvor hurtigt pendulet ændrer hastighed.
+            </li>
+            <li>
+                \(\mu(\dot{\theta})\) er en funktion, der angiver sammenhængen mellem friktionen og vinkelhastigheden. I 3b1b's video antages det, at \(\mu(\dot{\theta})=-\mu\cdot\dot{\theta}\), men den kunne i princippet være mere kompliceret.
+            </li>
+            <li>
+                \(m\) er den masse, der er i bevægelse, fx lod plus arm.
+            </li>
+            <li>
+                \(g\) er tyngdeaccelerationen.
+            </li>
+            <li>
+                \(d\) er afstanden fra massemidtpunktet til omdrejningsaksen.
+            </li>
+            <li>
+                \(I\) er intertimomentet i pendulet ift. omdrejningsaksen.
+            </li>
+        </ul>
+    </p>
+    <p>
+        Differentialligningen kan udledes vha. nogle fysiske love. Her vil jeg fremhæve loven \(\sum \vec{\tau}=\vec{\alpha} \cdot I\). Dvs. at vinkelaccelrationen er proportional med det resulterende kraftmoment (torque) på pendulet, dvs. den kraft der drejer det.
+        <span class="brsmall"></span>
+        Logikken i modellen bygget direkte på den lov. Overordnet set er der nemlig to kraftmomenter, der virker på pendulet: 
+        <ul>
+            <li>
+                Dæmpningen, som er en samlebetegnelse for gnidningen/friktionen/luftmodstanden 
+            </li>
+            <li>
+                Vægten pga. tyngdekraften.
+            </li>
+        </ul>
+    </p>
+    <p>
+
+    
+        Ifølge loven fås vinkelaccelerationen (som er interessant for os) altså ved at lægge alle kraftmomenter sammen og dele med inertimomentet \(I\).
+        <span class="brsmall"></span>
+        Jeg vil ikke gå i detaljer med udledningen af kraftmomentet fra tyngdekraften, men det involverer at tage krydsproduktet mellem tyngdekraften og vektoren fra omdrejningspunktet til massemidtpunktet. (Størrelsen af) det giver \(mgd \cdot sin(\theta)\).
+        <span class="brlarge"></span>
+    </p>
+    <h2>Løsningen</h2>
+    <p>
+        Vi er interesserede i løsningen til differentialligningen, altså en funktion \(\theta(t)\). Der findes ingen analytisk løsning i dette tilfælde, men vi kan stadig løse det numerisk. Tænkt det sådan her:
+        <br>
+        Antag at de fire konstanter \(m\), \(g\), \(d\) og \(I\) er kendt og at du kender funktionen \(\mu(\dot{\theta})\). Lad os sige og at du kender startvinklen \(\theta_0\) og startvinkelhastigheden \(\dot{\theta}_0\). Vha. disse kan du udregne startvinkelaccelerationen \(\ddot{\theta}_0\) ved blot at indsætte de kendte værdier i ligningen. Vi ønsker at løse differentialligningen numerisk, hvilket er en anden måde at sige at vi gerne vil forudsige pendulets bevægelse i fremtiden.
+        <br>
+        Vi kender pendulets starttilstand \((\theta, \dot{\theta})\). Vi kan ikke umiddelbart beregne en vilkårlig tilstand langt ude i fremtiden, men vi kan faktisk beregne, tilstanden efter en lille tidsskridt. Ved at tage mange små tidsskridt, vil vi før eller siden nå frem til det ønskede tidspunkt der kan ligge langt ude i fremtiden.
+        <br>
+        Vi kan let regne os frem til en kommende tilstand, hvis denne tilstand kun kræver et lille tidsskridt. Det er her, vektorfeltet/faserummet kommer ind i billedet.
+    </p>
+    <h2><a href="#vektorfelt1">Vektorfeltet</a></h2>
+    <p>
+        Som vist øverst kan man opstille et vektorfelt, som angiver hvordan en given tilstand ændrer sig, som systemet udvikler sig. Man kan tænkte det sådan, at vektorerne i vektorfeltet angiver den hastighed tilstanden \((\theta, \dot{\theta})\)bevæger sig med i dette abstrakte faserum.
+        <br>
+        En anden måde at sige det samme på: Vektorfeltet knytter den differenteirede tilstand til hver tilstand i faserummet \((\theta, \dot{\theta})\).
+        <span class="brlarge"></span>
+        Det kan være svært at forestille sig, så jeg har prøvet at llustrere idéen her:
+    </p>
+    <div class="gif">
+        <img id="evolution" src="img/evolution.gif" alt="">
+    </div>
+    <p>
+        Den røde priks positions er \(\begin{pmatrix}\theta \\ \dot{\theta} \end{pmatrix}\). Den bevæger sig pr. def. i dette abstrakte rum med hastigheden \(\frac{d}{dt} \begin{pmatrix}{\theta} \\ \dot{\theta} \end{pmatrix}=\begin{pmatrix}\dot{\theta} \\ \ddot{\theta} \end{pmatrix}\). Da \(\ddot{\theta}\) kan beregnes ud fra tilstanden, har vi altså en måde at beregne tilstanden differentieret.
+        <span class="brlarge"></span>
+        Dette kan selvfølgelig implementeres i Python:
+    </p>
+
+    <div class="python-code">
+<pre><code class="language-python">def get_theta_double_dot(theta, theta_dot):
+    return -mu * theta_dot - mgdI * np.sin(theta)
+
+def theta(t, delta_t):
+    theta = THETA_0
+    theta_dot = THETA_DOT_0
+    for time in np.arange(0, t, delta_t):
+        theta_double_dot = get_theta_double_dot(theta, theta_dot)
+        theta += theta_dot * delta_t
+        theta_dot += theta_double_dot * delta_t
+    return theta
+</code></pre>
+    </div>
+</div>
+
+
+
+<div class="layout">
+    <h2>Resumé</h2>
+    <p>
+
+    </p>
+</div>
+
+
+<!-- \frac{d^2\theta}{dt^2} -->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="footer">Opdateret 4. september   2024</div>
+
+
+</body>
+</html>
