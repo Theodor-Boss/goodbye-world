@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Penduler</title>
-    <link rel="icon" href="../img/andersand.webp">
+    <!-- <link rel="icon" href="../img/andersand.webp"> -->
+    <link rel="icon" href="img/pendulum3.png">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="css/main.css">
@@ -220,37 +221,65 @@ def theta(t, delta_t):
         Næste step var at finde en måde at måle vinklen, vinkelhastigheden og vinkelaccelerationen en hel masse gange. Jeg overvejede først videoanalyse. Jeg fik dog hurtigt en bedre idé:
         <br>
         At bruge min telefons indbyggede gyroskop til at måle vinkelhastigheden. Ved at montere telefonen på hjulet fik jeg optaget ~26.000 sammenhørende værdier af tid og vinkelhastighed fordelt på 5 måleserier vha. app'en  SenserLogger.
-
-        <h2>Efterbehandling</h2>
-        <p>
-            Stop 1 i efterbehandlingen var at gå fra data på formen \(\begin{pmatrix} t \\ \dot{\theta} \end{pmatrix}\) til data på formen \(\begin{pmatrix} \theta \\ \dot{\theta} \\ \ddot{\theta} \end{pmatrix}\). Det kan virke lidt underligt, at det kan lade sig gøre - at denne information kan trækkes ud af dataene - men det har noget at gøre med, at meget af informationen er opbevaret i <span class="kursiv">relationen</span> mellem datapunkterne.
-            <br>
-            Fx finder man vinklen ved at integrere vinkelhastigheden mht. tiden, og vinkelaccelerationen ved at differentiere vinkelhastigheden mht. tiden - begge har at gøre med relationen mellem dataene.
-        </p>
-        <h3>Kalibrering af vinkelhastigheden</h3>
-        <p>
-            Men første step var altså at kalibrere vinkelhastigheden.
-            Det var nemlig ikke gjort i appen...
-            <br>
-            Her et plot over mine data hvor fejlen illustreres:
-            <br>
-            <img src="img/Ikkekalibreret_vinkelhastighed_ani.gif" alt="">
-            <br>
-            Det ses, hvis man zoomer ind på det røde område, at det ikke er nul, som det burde være, eftersom hjulet stod stille.
-            <br>
-            <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe2.py">TryMe2.py</a> i min GitHub-repository for koden bag animationen. Sørg for også at downloade "extracted_data1.npz"
-            <BR></BR>
-            Jeg fandt ud af det, fordi jeg prøvede at integrere dataene men fik nogle underlige resultater:
-            <br>
-            <img src="img/bad_calibration.gif" alt="">
-            <br>
-            <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe3.py">TryMe3.py</a> for koden bag animationen.
-            
-            <span class="brlarge"></span>
-            
-            Animationen viser et plot af det ubestemte integral for vinkelhastigheden, altså stamfunktionen (antiderivative). Her ville jeg forvente en vandret linje, i tidsrummet, hvor pendulet stod stile, men den har en hældning.
-        </p>
     </p>
+    <BR></BR>
+    <h2>Efterbehandling</h2>
+    <p>
+        Step 1 i efterbehandlingen var at gå fra data på formen \(\begin{pmatrix} t \\ \dot{\theta} \end{pmatrix}\) til data på formen \(\begin{pmatrix} \theta \\ \dot{\theta} \\ \ddot{\theta} \end{pmatrix}\). Det kan virke lidt underligt, at det kan lade sig gøre - at denne information kan trækkes ud af dataene - men det har noget at gøre med, at meget af informationen er opbevaret i <span class="kursiv">relationen</span> mellem datapunkterne.
+        <br>
+        Fx finder man vinklen ved at integrere vinkelhastigheden mht. tiden, og vinkelaccelerationen ved at differentiere vinkelhastigheden mht. tiden - begge har at gøre med relationen mellem dataene.
+    </p>
+    <h3>Kalibrering af vinkelhastigheden</h3>
+    <p>
+        Men første step var altså at kalibrere vinkelhastigheden.
+        Det var nemlig ikke gjort i appen...
+        <br>
+        Her et plot over mine data hvor fejlen illustreres:
+        <br>
+        <img src="img/Ikkekalibreret_vinkelhastighed_ani.gif" alt="">
+        <br>
+        Det ses, hvis man zoomer ind på det røde område, at det ikke er nul (den vandrette linje), som det burde være, eftersom hjulet stod stille.
+        <br>
+        <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe2.py">TryMe2.py</a> i min GitHub-repository for koden bag animationen. Sørg for også at downloade "extracted_data1.npz"
+        <BR></BR>
+        Lad os fikse det med noget matematik:
+        <br>
+        Vores ikke-kalibrerede vinkelhastighed \(\omega_{off}(t)\) er forskudt med konstanten \(c_{off}\), således at
+    </p>
+</div>
+\[
+\huge \omega_{off}(t) = \omega(t) + c_{off}
+\]
+
+<div class="layout">
+    <p>
+        <img src="img/c_off.png" alt="">
+        <br>
+        Vi ønsker altså at bestemme \(c_{off}\).
+        <BR></BR>
+        Det er der mange måder at gøre på. Jeg valgte en, jeg er rigtig godt tilfreds med:
+        <br>
+        Vi kan nemlig integrere den ikke-kalibrerede vinkelhastighed, og foretage en lineær regression i det røde interval. Ved at integrere \(\omega_{off}(t)\) altså finde en stamfunktion til den, får vi følgende:
+    </p>
+</div>
+\[
+\Large \int \omega_{off}(t) dt = \int (\omega(t) + c_{off}) dt = \int \omega(t) dt + c_{off} \cdot t
+\]
+<div class="layout">
+    <p>
+        Det der står er, at hvis man integrerer den ikke-kalibrerede vinkelhastighed, får man \(c_{off} \cdot t\) plus en stamfunktion til den ægte vinkelhastighed \(\omega(t)\), som er konstant, når pendulet står stille. 
+        <br>
+        Med andre ord: En stamfunktion til den ikke-kalibrerede vinkelhastighed er en ret linje i tidsintervallet, hvor pendulet stod stille. Denne linjes hældning er \(c_{off}\). Vi kan foretage lineær regression for at finde denne.
+        <br>
+        <img src="img/Stamfunktion-regression.gif" alt="">
+        <br>
+        <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe3.py">TryMe3.py</a> for selv at køre animationen.
+        
+        <span class="brlarge"></span>
+        
+        Figuren viser en stamfunktion til den ikke-kalibrerede vinkelhastighed. Der er foretaget lineær regresion på det røde område (hvor pendulet stod stille). Bemærk linjens hældning, der bliver tydelig, når akserne justeres.
+    </p>
+
         
 </div>
 
