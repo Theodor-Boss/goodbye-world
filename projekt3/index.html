@@ -244,13 +244,14 @@ def theta(t, delta_t):
         <BR></BR>
         Lad os fikse det med noget matematik:
         <br>
-        Vores ikke-kalibrerede vinkelhastighed \(\omega_{off}(t)\) er forskudt med konstanten \(c_{off}\), således at
+        Vores ikke-kalibrerede vinkelhastighed \(\omega_{off}(t)\) er forskudt med konstanten \(c_{off}\), således at:
     </p>
 </div>
+<div id="omega_off">
 \[
 \huge \omega_{off}(t) = \omega(t) + c_{off}
 \]
-
+</div>
 <div class="layout">
     <p>
         <img src="img/c_off.png" alt="">
@@ -269,20 +270,106 @@ def theta(t, delta_t):
     <p>
         Det der står er, at hvis man integrerer den ikke-kalibrerede vinkelhastighed, får man \(c_{off} \cdot t\) plus en stamfunktion til den ægte vinkelhastighed \(\omega(t)\), som er konstant, når pendulet står stille. 
         <br>
-        Med andre ord: En stamfunktion til den ikke-kalibrerede vinkelhastighed er en ret linje i tidsintervallet, hvor pendulet stod stille. Denne linjes hældning er \(c_{off}\). Vi kan foretage lineær regression for at finde denne.
+        Med andre ord: En stamfunktion til den ikke-kalibrerede vinkelhastighed er en ret linje i tidsintervallet, hvor pendulet stod stille. Denne linjes hældning er \(c_{off}\). Vi kan foretage lineær regression for at finde denne. Når \(c_{off}\) er bestemt, kan vi finde den ægte vinkelhastighed \(\omega(t)\) ved at isolere den i formlen <a href="#omega_off">ovenfor</a>.
         <br>
         <img src="img/Stamfunktion-regression.gif" alt="">
         <br>
-        <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe3.py">TryMe3.py</a> for selv at køre animationen.
+        <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe3.py">TryMe3.py</a> for selv at køre animationen og se koden bag.
         
         <span class="brlarge"></span>
         
-        Figuren viser en stamfunktion til den ikke-kalibrerede vinkelhastighed. Der er foretaget lineær regresion på det røde område (hvor pendulet stod stille). Bemærk linjens hældning, der bliver tydelig, når akserne justeres.
+        Figuren viser en stamfunktion til den ikke-kalibrerede vinkelhastighed. Der er foretaget lineær regresion på det røde område (hvor pendulet er gået i stå). Bemærk linjens hældning, der bliver tydelig, når akserne justeres.
+        <BR></BR>
+        Jeg bruger den her algoritme til at finde en stamfunktioner med:
     </p>
-
-        
 </div>
 
+<div class="python-code">
+<pre><code class="language-python">def antiderivative(xs, ys):
+    h = np.diff(xs)
+    a1 = ys[:-1]
+    a2 = ys[1:]
+    trapez_sum = 0.5 * (a1 + a2) * h
+    integrals = np.concatenate(([0], np.cumsum(trapez_sum)))
+    return integrals
+</code></pre>
+    </div>
+
+<div class="layout">
+    <p>
+        Metoden bygger på den berømte relation mellem bestemte og ubestemte integraler:
+    </p>
+</div>
+\[
+\huge \int_{a}^{b} f(x)dx = F(b) - F(a)
+\]
+
+<div class="layout">
+    <p>
+        hvor \(F\) er en stamfunktion til \(f\).
+        <br>
+        Hvis man ønsker at finde en stamfunktion til \(f\), kan man nemlig sætte \(b=x\) og isolere \(F(x)\):
+    </p>
+</div>
+
+\[
+\huge \int_{a}^{x} f(x)dx = F(x) - F(a) \Longleftrightarrow F(x) = \int_{a}^{x} f(x)dx + F(a)
+\]
+
+<div class="layout">
+    <p>
+        \(F(a)\) er en konstant, så \(\int_{a}^{x} f(x)dx\) er også en stamfunktion til \(f\). Vi kan altså lige så fint udregne den. \(a\) kan desuden vælges frit blandt de reelle tal.
+        <BR></BR>
+        <code class="language-python">antiderivative()</code> bruger den såkaldte trapezmetode til at evaluere dette integral.
+        <br>
+        <img src="img/trapez approksimation.png" alt="">
+        <br>
+        Jeg minder om, at et bestemt integral svarer til arealet mellem kurven og \(x\)-aksen (hvis kurven er positiv - hvis kurven er negativ er integralet negativt). Så ved at approksimere arealet under kurven med trapezer i intervallet \(a\) og \(x\) fås en stamfunktion.
+        <BR></BR>
+        Koden nedenfor bruges til at kalibrere vinkelhastigheden.
+        <br>
+        
+        
+        <img src="img/github.jfif" alt="" style="width: 70px;"> Se <a target="_blank" href="https://github.com/Theodor-Boss/SRP/blob/main/TryMe4.py">TryMe4.py</a> for koden bag.
+        
+        <span class="brlarge"></span>
+
+    </p>
+</div>
+
+<div class="python-code">
+    <pre><code class="language-python">def antiderivative(xs, ys):
+    h = np.diff(xs)
+    a1 = ys[:-1]
+    a2 = ys[1:]
+    trapez_sum = 0.5 * (a1 + a2) * h
+    integrals = np.concatenate(([0], np.cumsum(trapez_sum)))
+    return integrals  # dvs. det ubestemte integral for y(x) gennem (xs[0],0)
+
+
+def calibrate_omega(ts, omegas, hvile):
+    """
+    "hvile" er en tuple som angiver
+    tidsintervallet, pendulet er i hvile.
+    """
+    stamfunktion = antiderivative(ts, omegas)
+    mask_hvile = (ts >= hvile[0]) & (ts < hvile[1])
+    X_train, X_test, y_train, y_test = train_test_split(
+        ts[mask_hvile].reshape(-1, 1), stamfunktion[mask_hvile],
+        test_size=0.2, random_state=42
+    )
+    model = LinearRegression()
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    mse = mean_squared_error(y_test, y_pred)
+    r2 = r2_score(y_test, y_pred)
+    slope = model.coef_[0]
+    kalibreret_omegas = omegas - slope
+    return kalibreret_omegas, r2, mse</code></pre></div>
+
+<div class="layout">
+    
+</div>
 
 <div class="layout">
     <h2><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Fortsæt med at generere</a></h2>
@@ -301,7 +388,7 @@ def theta(t, delta_t):
     <br>
     <br>
 
-    <div class="footer">Opdateret 5. september 2024</div>
+    <div class="footer">Opdateret 6. september 2024</div>
 
 
 </body>
