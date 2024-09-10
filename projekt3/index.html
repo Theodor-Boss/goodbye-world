@@ -338,16 +338,7 @@ def theta(t, delta_t):
 </div>
 
 <div class="python-code">
-    <pre><code class="language-python">def antiderivative(xs, ys):
-    h = np.diff(xs)
-    a1 = ys[:-1]
-    a2 = ys[1:]
-    trapez_sum = 0.5 * (a1 + a2) * h
-    integrals = np.concatenate(([0], np.cumsum(trapez_sum)))
-    return integrals  # dvs. det ubestemte integral for y(x) gennem (xs[0],0)
-
-
-def calibrate_omega(ts, omegas, hvile):
+    <pre><code class="language-python">def calibrate_omega(ts, omegas, hvile):
     """
     "hvile" er en tuple som angiver
     tidsintervallet, pendulet er i hvile.
