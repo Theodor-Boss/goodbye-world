@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Your PDF is downloading...</title>
+</head>
+<body>
+    <p>Your download should automatically begin. If it does not, <a id="downloadLink" href="/paper.pdf" download>click here</a>.</p>
+    <script>
+        // Create a function to programmatically trigger the download link click
+        window.addEventListener('load', function() {
+            var link = document.getElementById('downloadLink');
+            // Try to simulate a click on the link
+            if(link) {
+                link.click();
+            }
+        });
+    </script>
+</body>
+</html>
